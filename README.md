@@ -22,14 +22,16 @@ import {Rubeus} from "rubeus"
 
 // configure llm and its options
 
-const llm = "openai";
-
 const options = {
-  model = <enterModel>,
-  prompt = <enterPrompt>
+  "provider": "openai",
+}
+
+const params = {
+  model: <enterModel>,
+  prompt: <enterPrompt>
 }
   
-const openaiOutput = await Rubeus.generate(llm, options);
+const openaiOutput = await Rubeus.generate(params, options);
 ```
 You can switch different llms without worrying about their request parameters. For eg: to use cohere, simply use llm = "cohere" in the above code.
 
@@ -38,15 +40,17 @@ You can switch different llms without worrying about their request parameters. F
 # Node.js
 import {RubeusTools} from "rubeus"
 
-const tool = "googleSearch";
-
-const options = { 
-   inputParams: { //input Params as execpted the by tool
+const options = {
+    name: "googleSearch"
+}
+    
+const params = { 
+   input: { //input Params as execpted the by tool
       "q" = <enter search query for google search>
    }
 }
 
-const googleSearchOutput = await RuebusTools.run(tool, options);
+const googleSearchOutput = await RuebusTools.run(params, options);
 
 ```
 
