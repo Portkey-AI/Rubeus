@@ -1,7 +1,7 @@
 import { RequestBody } from "../types/requestBody";
 import transformToProviderRequest from "../services/transformToProviderRequest";
 import Providers from "../providers";
-import { CompletionResponse, ProviderAPIConfig } from "../providers/types";
+import { CompletionResponse } from "../providers/types";
 
 function constructRequest(apiConfig: any, requestType: string, apiKey: String) {
   let baseUrl = apiConfig.baseURL;

@@ -14,3 +14,5 @@ npm run deploy
 - [ ] Implement load balancing
 - [ ] Implement fallbacks
 - [ ] Implement scientist mode
+- [ ] Better documentation
+- [ ] Linting, code cleanup
