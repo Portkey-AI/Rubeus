@@ -1,12 +1,13 @@
-import { ProviderConfigs } from '../types';
-import CohereAPIConfig from './api';
-import CohereCompleteConfig from './complete';
-import CohereEmbedConfig from './embed';
+import { ProviderConfigs } from "../types";
+import CohereAPIConfig from "./api";
+import {CohereCompleteConfig, CohereCompleteResponseTransform} from "./complete";
+import CohereEmbedConfig from "./embed";
 
-const CohereConfig:ProviderConfigs = {
-    complete: CohereCompleteConfig,
-    embed: CohereEmbedConfig,
-    api: CohereAPIConfig
-}
+const CohereConfig: ProviderConfigs = {
+  complete: CohereCompleteConfig,
+  embed: CohereEmbedConfig,
+  api: CohereAPIConfig,
+  completeResponseTransform: CohereCompleteResponseTransform
+};
 
 export default CohereConfig;
