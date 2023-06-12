@@ -10,7 +10,7 @@ npm run deploy
 ```
 
 ## Todos
-- [] Implement a secrets store
-- [] Implement load balancing
-- [] Implement fallbacks
-- [] Implement scientist mode
+- [ ] Implement a secrets store
+- [ ] Implement load balancing
+- [ ] Implement fallbacks
+- [ ] Implement scientist mode
