@@ -1,34 +1,37 @@
 import { RequestBody } from "../types/requestBody";
-import providerAPIConfigs from "../providerAPIConfigs";
-import { ProviderAPIConfig } from "../providerAPIConfigs/types";
 import transformToProviderRequest from "../services/transformToProviderRequest";
+import ProviderConfigs from "../providers";
+import { ProviderAPIConfig } from "../providers/types";
 
-const REQUEST_TYPE:keyof ProviderAPIConfig = "complete";
-
-// The handleRequest function
-export async function handleRequest(env:any, request: RequestBody): Promise<Response> {
-    // Mapping providers to corresponding URLs
-    const apiConfig:ProviderAPIConfig = providerAPIConfigs[request.provider];
-
-    // Base URL
+function constructRequest(apiConfig:any, requestType:string, apiKey:String) {
     let baseUrl = apiConfig.baseURL;
     let headers:any = {
         'Content-Type': 'application/json'
     }
-    headers[apiConfig.authHeader] = apiConfig.authHeaderValue.replace("{{API_KEY}}", env[request.provider])
-    let endpoint = apiConfig[REQUEST_TYPE]
+    headers[apiConfig.authHeader] = apiConfig.authHeaderValue.replace("{{API_KEY}}", apiKey)
+    let endpoint = apiConfig[requestType]
 
     // Construct the full URL
     const url = `${baseUrl}${endpoint}`;
 
-    let params = transformToProviderRequest(request, REQUEST_TYPE);
-
-    // The fetch options
-    const fetchOptions: RequestInit = {
+    let fetchOptions: RequestInit = {
         method: 'POST',
-        headers,
-        body: JSON.stringify(params)
+        headers
     };
+
+    return {url, fetchOptions};
+}
+
+// The handleRequest function
+export async function handleRequest(env:any, request: RequestBody, requestType:keyof ProviderAPIConfig): Promise<Response> {
+    // Mapping providers to corresponding URLs
+    const apiConfig:any = ProviderConfigs[request.provider].api;
+
+    // Construct the base object for the POST request
+    let {url, fetchOptions} = constructRequest(apiConfig, requestType, env[request.provider])
+
+    // Attach the body of the request
+    fetchOptions.body = JSON.stringify(transformToProviderRequest(request, requestType));
 
     // Make the fetch request
     console.log("Going to make this call", url, JSON.stringify(fetchOptions))

@@ -1,4 +1,4 @@
-import providerConfigs from '../providerConfigs';
+import ProviderConfigs from '../providers';
 import { RequestBody } from '../types/requestBody';
 
 // Helper function to set nested property
@@ -28,7 +28,7 @@ function setNestedProperty(obj: any, path: string, value: any) {
  */
 const transformToProviderRequest = (reqBody: RequestBody, fn: string): {[key: string]: any} => {
     // Get the configuration for the specified provider
-    const providerConfig = providerConfigs[reqBody.provider][fn];
+    const providerConfig = ProviderConfigs[reqBody.provider][fn];
 
     // If the provider is not supported, throw an error
     if (!providerConfig) {

@@ -25,7 +25,7 @@ app.onError((err, c) => {
 app.post('/complete', async (c) => {
     let cjson = await c.req.json();
     console.log("Inside the complete request", cjson, c.env)
-    let response = await handleRequest(c.env, cjson);
+    let response = await handleRequest(c.env, cjson, "complete");
     // Will contain the code to make completion call to the actual provider.
     return c.json(await response.json())
 })

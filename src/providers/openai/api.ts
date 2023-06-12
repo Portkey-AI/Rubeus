@@ -1,10 +1,10 @@
-import { ProviderAPIConfig } from './types';
+import { ProviderAPIConfig } from '../types';
 
-const openAIAPIConfig: ProviderAPIConfig = {
+const OpenAIAPIConfig: ProviderAPIConfig = {
     baseURL: "https://api.openai.com/v1",
     authHeader: "Authorization",
     authHeaderValue: "Bearer {{API_KEY}}",
     complete: "/completions"
 }
 
-export default openAIAPIConfig;
+export default OpenAIAPIConfig;
