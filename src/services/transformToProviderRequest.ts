@@ -1,5 +1,5 @@
 import ProviderConfigs from "../providers";
-import { RequestBody } from "../types/requestBody";
+import { Params, RequestBody } from "../types/requestBody";
 
 // Helper function to set nested property
 function setNestedProperty(obj: any, path: string, value: any) {
@@ -20,18 +20,10 @@ function setNestedProperty(obj: any, path: string, value: any) {
  * constraints defined in the provider's configuration. If a required parameter is missing,
  * it assigns the default value from the provider's configuration.
  *
- * @param {RequestBody} reqBody - The request body from the incoming request.
- * The request body should include the provider name and the parameters for the AI request.
- *
- * @returns An object representing the transformed request body that fits the structure required by the AI provider.
- * If the provider specified in the request body is not supported, it throws an error.
  */
-const transformToProviderRequest = (
-  reqBody: RequestBody,
-  fn: string
-): { [key: string]: any } => {
+const transformToProviderRequest = (provider: string, params: Params, fn: string): { [key: string]: any } => {
   // Get the configuration for the specified provider
-  const providerConfig = ProviderConfigs[reqBody.provider][fn];
+  const providerConfig = ProviderConfigs[provider][fn];
 
   // If the provider is not supported, throw an error
   if (!providerConfig) {
@@ -46,9 +38,9 @@ const transformToProviderRequest = (
     const paramConfig = providerConfig[configParam];
 
     // If the parameter is present in the incoming request body
-    if (configParam in reqBody.params) {
+    if (configParam in params) {
       // Get the value for this parameter
-      let value = reqBody.params[configParam as keyof typeof reqBody.params];
+      let value = params[configParam as keyof typeof params];
 
       // If a transformation is defined for this parameter, apply it
       if (paramConfig.transform) {

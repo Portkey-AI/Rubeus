@@ -83,10 +83,10 @@ which is a short form of
 {
     "config": {
       "mode": "single",
-      "options": {
+      "options": [{
         "provider": "openai",
         "apiKeyName": "production1",
-      }
+      }]
     },
     "params": {
         "prompt": "What are the top 10 buildings in Delhi?",
