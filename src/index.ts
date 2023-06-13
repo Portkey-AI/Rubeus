@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { prettyJSON } from "hono/pretty-json";
+import { HTTPException } from 'hono/http-exception'
 
 import { completeHandler } from "./handlers/completeHandler";
 
@@ -11,6 +12,11 @@ app.notFound((c) => c.json({ message: "Not Found", ok: false }, 404));
 
 // Error handling
 app.onError((err, c) => {
+  if (err instanceof HTTPException) {
+    // Get the custom response
+    return err.getResponse()
+  }
+
   console.error(`${err}`);
   // Set HTTP status code
   c.status(500);
@@ -19,10 +25,15 @@ app.onError((err, c) => {
   return c.json(c.error);
 });
 
+// TODO: Error handling needs to be tested
 app.post("/complete", async (c) => {
-  let cjson = await c.req.json();
-  let response = await completeHandler(c.env, cjson);
-  return c.json(response);
+  try {
+    let cjson = await c.req.json();
+    let response = await completeHandler(c.env, cjson);
+    return c.json(response);
+  } catch(err:any) {
+    throw new HTTPException(500, { message: err.message })
+  }
 });
 
 export default app;
