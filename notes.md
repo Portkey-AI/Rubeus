@@ -174,7 +174,7 @@ and I could combine retry & fallback like this
 {
     "providerSettings": {
       "mode": "fallback",
-      "providers": [{
+      "options": [{
         "provider": "openai",
         "apiKeyName": "production1",
         "retry": {
