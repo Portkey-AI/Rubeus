@@ -3,10 +3,13 @@ import transformToProviderRequest from "../services/transformToProviderRequest";
 import Providers from "../providers";
 import { CompletionResponse } from "../providers/types";
 
-function constructRequest(apiConfig: any, apiKey: String) {
+function constructRequest(apiConfig: any, apiKey: string, provider: string) {
   let baseUrl = apiConfig.baseURL;
   let headers: any = {
     "Content-Type": "application/json",
+    "x-portkey-api-key": "x2trk",
+    "x-portkey-mode": `proxy ${provider}`,
+    "x-portkey-cache": true
   };
   headers[apiConfig.authHeader] = apiConfig.authHeaderValue.replace(
     "{{API_KEY}}",
@@ -15,7 +18,7 @@ function constructRequest(apiConfig: any, apiKey: String) {
   let endpoint = apiConfig.complete;
 
   // Construct the full URL
-  const url = `${baseUrl}${endpoint}`;
+  const url = `https://api.portkey.ai/v1/proxy${endpoint}`;
 
   let fetchOptions: RequestInit = {
     method: "POST",
@@ -32,7 +35,8 @@ async function tryPost(provider:string, apiKey:string, requestBody: RequestBody)
   // Construct the base object for the POST request
   let { url, fetchOptions } = constructRequest(
     apiConfig,
-    apiKey
+    apiKey,
+    provider
   );
 
   // Attach the body of the request
