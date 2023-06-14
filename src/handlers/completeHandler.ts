@@ -2,14 +2,15 @@ import { Config, Options, Params, RequestBody } from "../types/requestBody";
 import transformToProviderRequest from "../services/transformToProviderRequest";
 import Providers from "../providers";
 import { CompletionResponse } from "../providers/types";
+import { retryRequest } from "./retryHandler";
 
 function constructRequest(apiConfig: any, apiKey: string, provider: string) {
   let baseUrl = apiConfig.baseURL;
   let headers: any = {
     "Content-Type": "application/json",
-    "x-portkey-api-key": "x2trk",
+    "x-portkey-api-key": "x2trk", // TODO: this needs to be replaced.
     "x-portkey-mode": `proxy ${provider}`,
-    "x-portkey-cache": true
+    // "x-portkey-cache": true
   };
   headers[apiConfig.authHeader] = apiConfig.authHeaderValue.replace(
     "{{API_KEY}}",
@@ -28,7 +29,10 @@ function constructRequest(apiConfig: any, apiKey: string, provider: string) {
   return { url, fetchOptions };
 }
 
-async function tryPost(provider:string, apiKey:string, requestBody: RequestBody): Promise<CompletionResponse> {
+async function tryPost(providerOption:Options, apiKey:string, requestBody: RequestBody): Promise<CompletionResponse> {
+  const params:Params = requestBody.params;
+  const provider:string = providerOption.provider;
+  
   // Mapping providers to corresponding URLs
   const apiConfig: any = Providers[provider].api;
 
@@ -41,12 +45,19 @@ async function tryPost(provider:string, apiKey:string, requestBody: RequestBody)
 
   // Attach the body of the request
   fetchOptions.body = JSON.stringify(
-    transformToProviderRequest(provider, requestBody.params, "complete")
+    transformToProviderRequest(provider, params, "complete")
   );
 
-  // Make the fetch request
+  let response:Response;
+  let retryCount:number|undefined = 0;
+
+  // TODO: Could we just use retryRequest for everything?
+  if (!providerOption.retry) {
+    providerOption.retry = {attempts: 1, onStatusCodes:[]}
+  }
+  
   console.log("Going to make this call", url, JSON.stringify(fetchOptions));
-  const response:Response = await fetch(url, fetchOptions);
+  [response, retryCount] = await retryRequest(url, fetchOptions, providerOption.retry.attempts, providerOption.retry.onStatusCodes);
 
   // If the response was not ok, throw an error
   if (!response.ok) {
@@ -54,6 +65,9 @@ async function tryPost(provider:string, apiKey:string, requestBody: RequestBody)
       `Error: ${response.statusText}`,
       JSON.stringify(await response.json())
     );
+
+    // Check if this request needs to be retried
+
     throw new Error(`Error: ${response.statusText}`);
   }
 
@@ -91,27 +105,27 @@ function selectProviderByWeight(providers:Options[]): Options {
 
 // The completeHandler function
 export async function completeHandler(env: any, request: RequestBody): Promise<CompletionResponse|undefined> {
-  let provider:string|null;
+  let providerOption:Options|null;
   let mode:string;
   
   if ('provider' in request.config) {
-    provider = request.config.provider;
+    providerOption = {provider: request.config.provider}; // TODO: need to see what else comes in the short form
     mode = "single";
   } else {
     mode = request.config.mode;
     if (mode === "single") {
-      provider = request.config.options[0].provider
+      providerOption = request.config.options[0]
     } else if (mode === "loadbalance"){
-      provider = selectProviderByWeight(request.config.options).provider
+      providerOption = selectProviderByWeight(request.config.options)
     } else {
-      provider = null
+      providerOption = null
     }
   }
 
   // TODO: right now the load balancing only work for different providers
   // TODO: make it work across apiKeys, overridden params as well
-  if (!!provider) {
-    return tryPost(provider, env[provider], request);
+  if (!!providerOption) {
+    return tryPost(providerOption, env[providerOption.provider], request);
   } else {
     // TODO: Should throw an error here possibly.
     return undefined;
