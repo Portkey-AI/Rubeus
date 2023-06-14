@@ -44,11 +44,11 @@ Note: These badges are for illustrative purposes, make sure to use the appropria
 
 ## Key Features
 
-- :globe_with_meridians: **Interoperability:** Write once, run with any provider. Switch between __ models from __ providers seamlessly.
-- :arrows_counterclockwise: **Fallback Strategies:** Don't let failures stop you. If one provider fails, Rubeus can automatically switch to another.
-- :recycle: **Retry Strategies:** Temporary issues shouldn't mean manual re-runs. Rubeus can automatically retry failed requests.
-- :balance_scale: **Load Balancing:** Distribute load effectively across multiple API keys or providers based on custom weights.
-- :memo: **Unified API Signature:** If you've used OpenAI, you already know how to use Rubeus.
+- 🌐 **Interoperability:** Write once, run with any provider. Switch between __ models from __ providers seamlessly.
+- 🔀 **Fallback Strategies:** Don't let failures stop you. If one provider fails, Rubeus can automatically switch to another.
+- 🔄 **Retry Strategies:** Temporary issues shouldn't mean manual re-runs. Rubeus can automatically retry failed requests.
+- ⚖️ **Load Balancing:** Distribute load effectively across multiple API keys or providers based on custom weights.
+- 📝 **Unified API Signature:** If you've used OpenAI, you already know how to use Rubeus.
 
 ## Supported Providers
 
