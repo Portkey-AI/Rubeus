@@ -1,4 +1,4 @@
-<img src="/docs/images/Sticker.png" height=100/>
+<img src="/docs/images/Sticker.png" height=150/><br>
 # Rubeus
 - 🧙‍♂️ Guiding You 'Giantly' Through Language Models 🧙‍♂️ (*)
 - The 'Keeper' of Language Learning Models
