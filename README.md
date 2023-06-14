@@ -45,8 +45,8 @@ Note: These badges are for illustrative purposes, make sure to use the appropria
 ## Key Features
 
 - :globe_with_meridians: **Interoperability:** Write once, run with any provider. Switch between __ models from __ providers seamlessly.
-- :arrows_counterclockwise: **Fallback Strategies:** Don't let failures stop you. If one provider fails, Rubeus automatically switches to another.
-- :recycle: **Retry Strategies:** Temporary issues shouldn't mean manual re-runs. Rubeus automatically retries failed requests.
+- :arrows_counterclockwise: **Fallback Strategies:** Don't let failures stop you. If one provider fails, Rubeus can automatically switch to another.
+- :recycle: **Retry Strategies:** Temporary issues shouldn't mean manual re-runs. Rubeus can automatically retry failed requests.
 - :balance_scale: **Load Balancing:** Distribute load effectively across multiple API keys or providers based on custom weights.
 - :memo: **Unified API Signature:** If you've used OpenAI, you already know how to use Rubeus.
 
@@ -54,16 +54,15 @@ Note: These badges are for illustrative purposes, make sure to use the appropria
 
 We currently support several top language model providers, with more to come. The table below provides an overview of our supported and upcoming providers:
 
-| Provider  | Support Status  | Description |
+| Provider  | Support Status  | Supported Endpoints |
 |---|---|---|
-| ![OpenAI](logo_link) OpenAI  | :heavy_check_mark: Supported  | OpenAI is a leading research organization in the field of artificial intelligence and the creator of GPT-3. |
-| ![Anthropic](logo_link) Anthropic  | :heavy_check_mark: Supported  | Anthropic is focused on developing transparent, understandable, and broadly aligned AI systems. |
-| ![Cohere](logo_link) Cohere  | :heavy_check_mark: Supported  | Cohere offers a range of large language models suitable for different applications. |
-| ![Google Bard](logo_link) Google Bard  | :soon: Coming Soon  | Google Bard is an AI language model developed by Google. |
-| ![LocalAI](logo_link) LocalAI  | :soon: Coming Soon  | LocalAI focuses on enabling local language understanding with their models. |
-| Others  | :soon: Coming Soon  | We are constantly expanding to include more providers. |
+| ![OpenAI](logo_link) OpenAI  | :heavy_check_mark: Supported  | `/completion`, `/embed` |
+| ![Anthropic](logo_link) Anthropic  | :heavy_check_mark: Supported  | `/complete` |
+| ![Cohere](logo_link) Cohere  | :heavy_check_mark: Supported  | `generate`, `embed` |
+| ![Google Bard](logo_link) Google Bard  | :soon: Coming Soon  |  |
+| ![LocalAI](logo_link) LocalAI  | :soon: Coming Soon  |  |
 
-Stay tuned for more updates on our supported providers.
+Stay tuned for more updates on our supported providers and endpoints.
 
 ## Installation
 On the local machine,
@@ -72,7 +71,7 @@ npm install
 npm run dev
 ```
 Or on the server, something like this
-```
+```bash
 npm run deploy
 ```
 
