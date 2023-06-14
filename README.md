@@ -1,13 +1,10 @@
+![](/docs/images/Sticker.png)
 # Rubeus
-🧙‍♂️ Guiding You 'Giantly' Through Language Models 🧙‍♂️ (*)
-OR
-The 'Keeper' of Language Learning Models
-OR
-The 'Giant' Axios of Language Learning Models
-OR
-🧙‍♂️ The 'Keeper' of Language Models, with Axios-Style Elegance 🧙‍♂️ (*)
-OR
-'Enchanting' Language Model Interactions with an Axios Twist
+- 🧙‍♂️ Guiding You 'Giantly' Through Language Models 🧙‍♂️ (*)
+- The 'Keeper' of Language Learning Models
+- The 'Giant' Axios of Language Learning Models
+- 🧙‍♂️ The 'Keeper' of Language Models, with Axios-Style Elegance 🧙‍♂️ (*)
+- 'Enchanting' Language Model Interactions with an Axios Twist
 
 [![npm version](https://badge.fury.io/js/rubeus.svg)](https://badge.fury.io/js/rubeus)
 [![Build Status](https://travis-ci.com/yourusername/rubeus.svg?branch=master)](https://travis-ci.com/yourusername/rubeus)
