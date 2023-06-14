@@ -1,4 +1,4 @@
-![](/docs/images/Sticker.png)
+<img src="/docs/images/Sticker.png" height=100/>
 # Rubeus
 - 🧙‍♂️ Guiding You 'Giantly' Through Language Models 🧙‍♂️ (*)
 - The 'Keeper' of Language Learning Models
