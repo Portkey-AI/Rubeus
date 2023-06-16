@@ -1,4 +1,4 @@
-<img src="https://i.imgur.com/p8fETUG.jpg" width=2000/><br>
+<img src="/docs/images/header.png" width=2000/><br>
 
 <p align="center">
 
@@ -44,11 +44,11 @@ npm run deploy #To run on your server
 
 | Provider  | Support Status  | Supported Endpoints |
 |---|---|---|
-| ![OpenAI](logo_link) OpenAI  | :heavy_check_mark: Supported  | `/completion`, `/embed` |
-| ![Anthropic](logo_link) Anthropic  | :heavy_check_mark: Supported  | `/complete` |
-| ![Cohere](logo_link) Cohere  | :heavy_check_mark: Supported  | `generate`, `embed` |
-| ![Google Bard](logo_link) Google Bard  | :soon: Coming Soon  |  |
-| ![LocalAI](logo_link) LocalAI  | :soon: Coming Soon  |  |
+| <img src="/docs/images/openai.png" width=18> OpenAI | :heavy_check_mark: Supported  | `/completion`, `/embed` |
+| <img src="/docs/images/anthropic.png" width=18> Anthropic  | :heavy_check_mark: Supported  | `/complete` |
+| <img src="/docs/images/cohere.png" width=18> Cohere  | :heavy_check_mark: Supported  | `generate`, `embed` |
+| <img src="/docs/images/bard.png" width=18> Google Bard  | :soon: Coming Soon  |  |
+| <img src="/docs/images/localai.png" width=18> LocalAI  | :soon: Coming Soon  |  |
 
 📢 [Follow us on Twitter](https://twitter.com/portkeyai) for new updates.
 
