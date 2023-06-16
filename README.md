@@ -1,15 +1,15 @@
-<img src="/docs/images/header.png" width=2000/><br>
+<img src="/docs/images/header.png" width=2000>
 
-<p align="center">
-
-  [![npm version](https://badge.fury.io/js/rubeus.svg)](https://badge.fury.io/js/rubeus)
+<div align="center">
+  
+[![npm version](https://badge.fury.io/js/rubeus.svg)](https://badge.fury.io/js/rubeus)
 [![Build Status](https://travis-ci.com/yourusername/rubeus.svg?branch=master)](https://travis-ci.com/yourusername/rubeus)
 [![Coverage Status](https://coveralls.io/repos/github/yourusername/rubeus/badge.svg?branch=master)](https://coveralls.io/github/yourusername/rubeus?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 📝 [Rubeus Docs](https://github.com/Portkey-AI/docs) 💻 [How to Contribute]()
+📝 [**Use Rubeus**](#using-rubeus-features) 💻 [**How to Contribute**](#contribution-guidelines)
 
-</p>
+</div>
 
 ```
 todo
@@ -104,11 +104,14 @@ If you're familiar with OpenAI's API, you'll find Rubeus's API easy to use due t
 3. More robust fallback and retry strategies to further improve the reliability of requests.
 4. Increased customizability of the unified API signature to cater to more diverse use cases.
 
-[💡 Raise an issue to suggest a new feature](https://github.com/Portkey-AI/Rubeus/issues)
+[💬 Participate in Roadmap discussions here.](https://github.com/Portkey-AI/Rubeus/issues)
 
 ## Contribution Guidelines
 
-Don't know where to start? Start with a *Good First Issue*!
+* Checkout *Good First Issue* to start contributing!
+* Bug Report? File here.
+* Feature Request? File here.
+* Reach out to the developers directly: [Rohit](https://twitter.com/jumbld) | [Ayush](https://twitter.com/ayushgarg_xyz)
 
 ## License
 
