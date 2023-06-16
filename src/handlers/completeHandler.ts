@@ -8,7 +8,7 @@ function constructRequest(apiConfig: any, apiKey: string, provider: string) {
   let baseUrl = apiConfig.baseURL;
   let headers: any = {
     "Content-Type": "application/json",
-    "x-portkey-api-key": "x2trk", // TODO: this needs to be replaced.
+    "x-portkey-api-key": "<PORTKEY API KEY>", // TODO: this needs to be replaced.
     "x-portkey-mode": `proxy ${provider}`,
     // "x-portkey-cache": true
   };
