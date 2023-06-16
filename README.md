@@ -2,26 +2,18 @@
 
 <div align="center">
   
-[![npm version](https://badge.fury.io/js/rubeus.svg)](https://badge.fury.io/js/rubeus)
+<!--[![npm version](https://badge.fury.io/js/rubeus.svg)](https://badge.fury.io/js/rubeus)
 [![Build Status](https://travis-ci.com/yourusername/rubeus.svg?branch=master)](https://travis-ci.com/yourusername/rubeus)
 [![Coverage Status](https://coveralls.io/repos/github/yourusername/rubeus/badge.svg?branch=master)](https://coveralls.io/github/yourusername/rubeus?branch=master)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) -->
 
 📝 [**Use Rubeus**](#using-rubeus-features) 💻 [**How to Contribute**](#contribution-guidelines)
 
 </div>
 
-```
-todo
-
-Please replace `yourusername` with your actual GitHub username and adjust the links as needed. The badges here are provided by services like [Fury](https://badge.fury.io/), [Travis CI](https://travis-ci.com/), [Coveralls](https://coveralls.io/), and [shields.io](https://shields.io/). You'll need to set up these services for your project to use these badges.
-
-Note: These badges are for illustrative purposes, make sure to use the appropriate badges that reflect the actual status of your project.
-```
-
 ---
 
-### **Rubeus** is an intelligent tool that streamlines interactions with multiple Language Learning Model (LLM) providers. Just as Axios simplifies HTTP requests with its promise-based structure, Rubeus prvodies a unified API signature for interacting with all LLMs. 
+### **Rubeus** is an intelligent tool that streamlines interactions with multiple Language Learning Model (LLM) providers. Just as Axios simplifies HTTP requests with its promise-based structure, Rubeus provdies a unified API signature for interacting with all LLMs. 
 
 
 ## Rubeus Features
