@@ -7,23 +7,42 @@
 [![Coverage Status](https://coveralls.io/repos/github/yourusername/rubeus/badge.svg?branch=master)](https://coveralls.io/github/yourusername/rubeus?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) -->
 
-📝 [**Use Rubeus**](#using-rubeus-features) 💻 [**How to Contribute**](#contribution-guidelines)
-
 </div>
 
----
+**Rubeus** is an unopionionated edge worker for buliding with with Large Language Models (LLMs). Catering to a range of LLM providers, Rubeus extends beyond a unified API, becoming a powerful ally that expertly handles retries, fallbacks, and load distribution. The essence of Rubeus isn't merely about initiating requests—it's about ensuring these requests are handled intelligently and efficiently. With Rubeus, you're harnessing the power of language models, Axios-style! 💼🚀 
 
-### **Rubeus** is an intelligent tool that streamlines interactions with multiple Language Learning Model (LLM) providers. Just as Axios simplifies HTTP requests with its promise-based structure, Rubeus provdies a unified API signature for interacting with all LLMs. 
+- [Key Features](#key-features)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+  - [Interoperability](#-interoperability)
+  - [Fallback Strategies](#-fallback-strategies)
+  - [Retry Strategies](#-retry-strategies)
+  - [Load Balancing](#%EF%B8%8F-load-balancing)
+  - [Unified API Signature](#-unified-api-signature)
+- [API Documentation](#api-documentation)
+- [Contributing](#contributing)
+- [License](#license)
 
 
-## Rubeus Features
+### Key Features
 
 * 🌐 **Interoperability:** Write once, run with any provider. Switch between __ models from __ providers seamlessly.
 * 🔀 **Fallback Strategies:** Don't let failures stop you. If one provider fails, Rubeus can automatically switch to another.
 * 🔄 **Retry Strategies:** Temporary issues shouldn't mean manual re-runs. Rubeus can automatically retry failed requests.
 * ⚖️ **Load Balancing:** Distribute load effectively across multiple API keys or providers based on custom weights.
 * 📝 **Unified API Signature:** If you've used OpenAI, you already know how to use Rubeus with any other provider.
+<br><br>
+### Supported Providers
 
+| Provider  | Support Status  | Supported Endpoints |
+|---|---|---|
+| <img src="/docs/images/openai.png" width=18> OpenAI | :heavy_check_mark: Supported  | `/completion`, `/embed` |
+| <img src="/docs/images/anthropic.png" width=18> Anthropic  | :heavy_check_mark: Supported  | `/complete` |
+| <img src="/docs/images/cohere.png" width=18> Cohere  | :heavy_check_mark: Supported  | `generate`, `embed` |
+| <img src="/docs/images/bard.png" width=18> Google Bard  | :soon: Coming Soon  |  |
+| <img src="/docs/images/localai.png" width=18> LocalAI  | :soon: Coming Soon  |  |
+
+<br><br>
 ## Getting Started
 
 ```bash
@@ -34,21 +53,9 @@ npm run deploy # To deploy to cloudflare
 
 The local server runs on `http://localhost:8787` by default that is the base url for all requests.
 
-## Supported Providers
+## Usage
 
-| Provider  | Support Status  | Supported Endpoints |
-|---|---|---|
-| <img src="/docs/images/openai.png" width=18> OpenAI | :heavy_check_mark: Supported  | `/completion`, `/embed` |
-| <img src="/docs/images/anthropic.png" width=18> Anthropic  | :heavy_check_mark: Supported  | `/complete` |
-| <img src="/docs/images/cohere.png" width=18> Cohere  | :heavy_check_mark: Supported  | `generate`, `embed` |
-| <img src="/docs/images/bard.png" width=18> Google Bard  | :soon: Coming Soon  |  |
-| <img src="/docs/images/localai.png" width=18> LocalAI  | :soon: Coming Soon  |  |
-
-📢 [Follow us on Twitter](https://twitter.com/portkeyai) for new updates.
-
-## Using Rubeus Features
-
-### 1. 🌐 Interoperability
+### 🌐 Interoperability
 Rubeus allows you to switch between different language learning models from various providers, making it a highly flexible tool. The following example shows a request to `openai`, but you could change the provider name to `cohere`, `anthropic` or others and Rubeus will automatically handle everything else.
 ```bash
 curl --location 'http://127.0.0.1:8787/complete' \
@@ -66,25 +73,25 @@ curl --location 'http://127.0.0.1:8787/complete' \
 }'
 ```
 
-### 2. 🔀 Fallback Strategies
+### 🔀 Fallback Strategies
 In case one provider fails, Rubeus is designed to automatically switch to another, ensuring uninterrupted service.
 ```javascript
 // example code
 ```
 
-### 3. 🔄 Retry Strategies
+### 🔄 Retry Strategies
 Rubeus has a built-in mechanism to retry failed requests, eliminating the need for manual re-runs.
 ```javascript
 // example code
 ```
 
-### 4. ⚖️ Load Balancing
+### ⚖️ Load Balancing
 Manage your workload effectively with Rubeus's custom weight-based distribution across multiple API keys or providers.
 ```javascript
 // example code
 ```
 
-### 5. 📝 Unified API Signature
+### 📝 Unified API Signature
 If you're familiar with OpenAI's API, you'll find Rubeus's API easy to use due to its unified signature.
 ```javascript
 // example code
@@ -112,7 +119,7 @@ If you're familiar with OpenAI's API, you'll find Rubeus's API easy to use due t
 
 [💬 Participate in Roadmap discussions here.](https://github.com/Portkey-AI/Rubeus/issues)
 
-## Contribution Guidelines
+## Contributing
 
 * Checkout *Good First Issue* to start contributing!
 * Bug Report? File here.
