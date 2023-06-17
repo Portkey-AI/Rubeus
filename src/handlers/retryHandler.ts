@@ -21,7 +21,7 @@ export const retryRequest = async (
             throw errorObj;
           } else {
             lastAttempt = attempt;
-            console.log(`Returned Success in Retry Attempt ${attempt}`);
+            console.log(`Returned in Retry Attempt ${attempt}. Status:`, response.ok);
           }
           lastResponse = response;
         } catch (error: any) {

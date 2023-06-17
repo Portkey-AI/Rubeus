@@ -10,7 +10,7 @@ function constructRequest(apiConfig: any, apiKey: string, provider: string) {
     "Content-Type": "application/json",
     "x-portkey-api-key": "<PORTKEY API KEY>", // TODO: this needs to be replaced.
     "x-portkey-mode": `proxy ${provider}`,
-    // "x-portkey-cache": true
+    // "x-portkey-cache": "semantic"
   };
   headers[apiConfig.authHeader] = apiConfig.authHeaderValue.replace(
     "{{API_KEY}}",
@@ -51,7 +51,6 @@ async function tryPost(providerOption:Options, apiKey:string, requestBody: Reque
   let response:Response;
   let retryCount:number|undefined = 0;
 
-  // TODO: Could we just use retryRequest for everything?
   if (!providerOption.retry) {
     providerOption.retry = {attempts: 1, onStatusCodes:[]}
   }
@@ -103,31 +102,67 @@ function selectProviderByWeight(providers:Options[]): Options {
   throw new Error("No provider selected, please check the weights");
 }
 
+async function tryProvidersInSequence(providers:Options[], env:any, request: RequestBody) {
+  let errors: any[] = [];
+  for (let providerOption of providers) {
+    try {
+      return await tryPost(providerOption, env[providerOption.provider], request);
+    } catch (error:any) {
+      // Log and store the error
+      console.log(`Error with provider ${providerOption.provider}: ${error}`);
+      errors.push({
+        provider: providerOption.provider,
+        error: error.message
+      });
+    }
+  }
+  // If we're here, all providers failed. Throw an error with the details.
+  throw new Error(`All providers failed. Errors: ${JSON.stringify(errors)}`);
+}
+
+// The completeHandler function
 // The completeHandler function
 export async function completeHandler(env: any, request: RequestBody): Promise<CompletionResponse|undefined> {
-  let providerOption:Options|null;
+  let providerOptions:Options[]|null;
   let mode:string;
   
   if ('provider' in request.config) {
-    providerOption = {provider: request.config.provider}; // TODO: need to see what else comes in the short form
+    providerOptions = [{provider: request.config.provider, apiKeyName: request.config.apiKeyName}];
     mode = "single";
   } else {
     mode = request.config.mode;
-    if (mode === "single") {
-      providerOption = request.config.options[0]
-    } else if (mode === "loadbalance"){
-      providerOption = selectProviderByWeight(request.config.options)
+    if (mode === "single" || mode === "loadbalance") {
+      providerOptions = [mode === "single" ? request.config.options[0] : selectProviderByWeight(request.config.options)];
+    } else if (mode === "fallback") {
+      providerOptions = request.config.options;
     } else {
-      providerOption = null
+      providerOptions = null
     }
   }
 
-  // TODO: right now the load balancing only work for different providers
-  // TODO: make it work across apiKeys, overridden params as well
-  if (!!providerOption) {
-    return tryPost(providerOption, env[providerOption.provider], request);
+  if (providerOptions) {
+    try {
+      if (mode === "fallback") {
+        // Try all providers in sequence (for fallback mode)
+        return await tryProvidersInSequence(providerOptions, env, request);
+      } else {
+        // Try just one provider (for single and loadbalance modes)
+        return await tryPost(providerOptions[0], env[providerOptions[0].provider], request);
+      }
+    } catch (error:any) {
+      console.error(`Error: ${error.message}`);
+      const errorResponse = {
+        error: {
+          message: `Failed to process the request`,
+          type: error.name,
+          detail: error.message
+        }
+      };
+      throw errorResponse;
+    }
   } else {
     // TODO: Should throw an error here possibly.
     return undefined;
   }
 }
+
