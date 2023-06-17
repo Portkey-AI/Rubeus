@@ -9,7 +9,7 @@
 
 </div>
 
-**Rubeus** is an unopionionated edge worker for buliding with with Large Language Models (LLMs). Catering to a range of LLM providers, Rubeus extends beyond a unified API, becoming a powerful ally that expertly handles retries, fallbacks, and load distribution. The essence of Rubeus isn't merely about initiating requests—it's about ensuring these requests are handled intelligently and efficiently. With Rubeus, you're harnessing the power of language models, Axios-style! 💼🚀 
+**Rubeus** is an unopionionated edge worker for buliding with Large Language Models (LLMs). Catering to a range of LLM providers, Rubeus extends beyond a unified API, becoming a powerful ally that expertly handles retries, fallbacks, and load distribution. The essence of Rubeus isn't merely about initiating requests—it's about ensuring these requests are handled intelligently and efficiently. With Rubeus, you're harnessing the power of language models, Axios-style! 💼🚀 
 
 - [Key Features](#key-features)
 - [Getting Started](#getting-started)
