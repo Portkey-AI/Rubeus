@@ -1,4 +1,4 @@
-import { Config, Options, Params, RequestBody } from "../types/requestBody";
+import { Options, Params, RequestBody } from "../types/requestBody";
 import transformToProviderRequest from "../services/transformToProviderRequest";
 import Providers from "../providers";
 import { CompletionResponse } from "../providers/types";
@@ -8,7 +8,7 @@ function constructRequest(apiConfig: any, apiKey: string, provider: string) {
   let baseUrl = apiConfig.baseURL;
   let headers: any = {
     "Content-Type": "application/json",
-    "x-portkey-api-key": "<PORTKEY API KEY>", // TODO: this needs to be replaced.
+    "x-portkey-api-key": "x2trk", // TODO: this needs to be replaced.
     "x-portkey-mode": `proxy ${provider}`,
     // "x-portkey-cache": "semantic"
   };
@@ -37,16 +37,10 @@ async function tryPost(providerOption:Options, apiKey:string, requestBody: Reque
   const apiConfig: any = Providers[provider].api;
 
   // Construct the base object for the POST request
-  let { url, fetchOptions } = constructRequest(
-    apiConfig,
-    apiKey,
-    provider
-  );
+  let { url, fetchOptions } = constructRequest(apiConfig,apiKey,provider);
 
   // Attach the body of the request
-  fetchOptions.body = JSON.stringify(
-    transformToProviderRequest(provider, params, "complete")
-  );
+  fetchOptions.body = JSON.stringify(transformToProviderRequest(provider, params, "complete"));
 
   let response:Response;
   let retryCount:number|undefined = 0;
@@ -60,19 +54,14 @@ async function tryPost(providerOption:Options, apiKey:string, requestBody: Reque
 
   // If the response was not ok, throw an error
   if (!response.ok) {
-    console.error(
-      `Error: ${response.statusText}`,
-      JSON.stringify(await response.json())
-    );
+    console.error(`Error: ${response.statusText}`, JSON.stringify(await response.json()));
 
     // Check if this request needs to be retried
-
     throw new Error(`Error: ${response.statusText}`);
   }
 
   // Return the response
   let json = await response.json();
-
   let completionResponse = Providers[provider].completeResponseTransform(json);
 
   // Return the standardized JSON
@@ -120,7 +109,19 @@ async function tryProvidersInSequence(providers:Options[], env:any, request: Req
   throw new Error(`All providers failed. Errors: ${JSON.stringify(errors)}`);
 }
 
-// The completeHandler function
+function getProviderOptionsByMode(mode: string, config: any): Options[]|null {
+  switch (mode) {
+    case "single":
+      return [config.options[0]];
+    case "loadbalance":
+      return [selectProviderByWeight(config.options)];
+    case "fallback":
+      return config.options;
+    default:
+      return null;
+  }    
+}
+
 // The completeHandler function
 export async function completeHandler(env: any, request: RequestBody): Promise<CompletionResponse|undefined> {
   let providerOptions:Options[]|null;
@@ -131,38 +132,32 @@ export async function completeHandler(env: any, request: RequestBody): Promise<C
     mode = "single";
   } else {
     mode = request.config.mode;
-    if (mode === "single" || mode === "loadbalance") {
-      providerOptions = [mode === "single" ? request.config.options[0] : selectProviderByWeight(request.config.options)];
-    } else if (mode === "fallback") {
-      providerOptions = request.config.options;
-    } else {
-      providerOptions = null
-    }
+    providerOptions = getProviderOptionsByMode(mode, request.config);
   }
 
-  if (providerOptions) {
-    try {
-      if (mode === "fallback") {
-        // Try all providers in sequence (for fallback mode)
-        return await tryProvidersInSequence(providerOptions, env, request);
-      } else {
-        // Try just one provider (for single and loadbalance modes)
-        return await tryPost(providerOptions[0], env[providerOptions[0].provider], request);
-      }
-    } catch (error:any) {
-      console.error(`Error: ${error.message}`);
-      const errorResponse = {
-        error: {
-          message: `Failed to process the request`,
-          type: error.name,
-          detail: error.message
-        }
-      };
-      throw errorResponse;
-    }
-  } else {
+  if (!providerOptions) {
     // TODO: Should throw an error here possibly.
     return undefined;
+  }
+  
+  try {
+    if (mode === "fallback") {
+      // Try all providers in sequence (for fallback mode)
+      return await tryProvidersInSequence(providerOptions, env, request);
+    } else {
+      // Try just one provider (for single and loadbalance modes)
+      return await tryPost(providerOptions[0], env[providerOptions[0].provider], request);
+    }
+  } catch (error:any) {
+    console.error(`Error: ${error.message}`);
+    const errorResponse = {
+      error: {
+        message: `Failed to process the request`,
+        type: error.name,
+        detail: error.message
+      }
+    };
+    throw errorResponse;
   }
 }
 
