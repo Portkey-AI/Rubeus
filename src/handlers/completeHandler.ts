@@ -30,7 +30,9 @@ function constructRequest(apiConfig: any, apiKey: string, provider: string) {
 }
 
 async function tryPost(providerOption:Options, apiKey:string, requestBody: RequestBody): Promise<CompletionResponse> {
-  const params:Params = requestBody.params;
+  const overrideParams = providerOption?.override_params || {};
+  const params: Params = {...requestBody.params, ...overrideParams};
+
   const provider:string = providerOption.provider;
   
   // Mapping providers to corresponding URLs

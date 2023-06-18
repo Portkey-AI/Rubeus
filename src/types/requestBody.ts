@@ -8,6 +8,7 @@ export interface Options {
   apiKeyName?: string;
   weight?: number;
   retry?: RetrySettings;
+  override_params?: Params;
 }
 
 export interface Config {
