@@ -42,7 +42,8 @@
 | <img src="/docs/images/bard.png" width=18> Google Bard  | :soon: Coming Soon  |  |
 | <img src="/docs/images/localai.png" width=18> LocalAI  | :soon: Coming Soon  |  |
 
-<br>
+<br />
+
 ### Getting Started
 
 ```bash
