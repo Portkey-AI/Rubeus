@@ -12,13 +12,34 @@ export interface Options {
 }
 
 export interface Config {
-  mode: "single" | "fallback" | "loadbalance";
+  mode: "single" | "fallback" | "loadbalance" | "scientist";
   options: Options[];
 }
+
+export interface Message {
+  role: 'system' | 'user' | 'assistant' | 'function';
+  content?: string;
+  name?: string;
+  function_call?: any;
+}
+
+export interface JsonSchema {
+  [key: string]: any;  // Replace with actual schema definition if known
+}
+
+export interface Function {
+  name: string;
+  description?: string;
+  parameters?: JsonSchema;
+}
+
 
 export interface Params {
   model: string;
   prompt?: string | string[];
+  messages?: Message[];
+  functions?: Function[];
+  function_call?: "none" | "auto" | {name: string;};
   max_tokens?: number;
   temperature?: number;
   top_p?: number;

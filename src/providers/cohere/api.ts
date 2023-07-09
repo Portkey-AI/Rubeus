@@ -2,9 +2,11 @@ import { ProviderAPIConfig } from "../types";
 
 const CohereAPIConfig: ProviderAPIConfig = {
   baseURL: "https://api.cohere.ai/v1",
-  authHeader: "Authorization",
-  authHeaderValue: "Bearer {{API_KEY}}",
+  headers: (API_KEY:string) => {
+    return {"Authorization": `Bearer ${API_KEY}`}
+  },
   complete: "/generate",
+  chatComplete: "/generate",
 };
 
 export default CohereAPIConfig;

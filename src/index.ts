@@ -3,6 +3,7 @@ import { prettyJSON } from "hono/pretty-json";
 import { HTTPException } from 'hono/http-exception'
 
 import { completeHandler } from "./handlers/completeHandler";
+import { chatCompleteHandler } from "./handlers/chatCompleteHandler";
 
 const app = new Hono();
 
@@ -30,6 +31,16 @@ app.post("/complete", async (c) => {
   try {
     let cjson = await c.req.json();
     let response = await completeHandler(c.env, cjson);
+    return c.json(response);
+  } catch(err:any) {
+    throw new HTTPException(500, { message: err.message })
+  }
+});
+
+app.post("/chatComplete", async (c) => {
+  try {
+    let cjson = await c.req.json();
+    let response = await chatCompleteHandler(c.env, cjson);
     return c.json(response);
   } catch(err:any) {
     throw new HTTPException(500, { message: err.message })

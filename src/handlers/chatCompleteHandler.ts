@@ -5,7 +5,7 @@ import { getProviderOptionsByMode, tryProvidersInSequence } from "./handlerUtils
 // const OPENAI_CHAT_MODELS = ["gpt-4-0613","gpt-3.5-turbo-16k-0613","gpt-3.5-turbo-0301","gpt-3.5-turbo","gpt-3.5-turbo-0613","gpt-4","gpt-4-0314","gpt-3.5-turbo-16k","gpt-4-32k-0314","gpt-4-32k-0613","gpt-4-32k"]
 
 // The completeHandler function
-export async function completeHandler(env: any, request: RequestBody): Promise<CompletionResponse|undefined> {
+export async function chatCompleteHandler(env: any, request: RequestBody): Promise<CompletionResponse|undefined> {
   let providerOptions:Options[]|null;
   let mode:string;
   
@@ -25,7 +25,7 @@ export async function completeHandler(env: any, request: RequestBody): Promise<C
   }
   
   try {
-      return await tryProvidersInSequence(providerOptions, env, request, "complete");
+      return await tryProvidersInSequence(providerOptions, env, request, "chatComplete");
   } catch (error:any) {
     console.error(`Error caught in completeHandler: ${error.message}`);
     const errorResponse = {

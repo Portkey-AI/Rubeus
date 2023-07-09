@@ -1,5 +1,5 @@
 import ProviderConfigs from "../providers";
-import { Params, RequestBody } from "../types/requestBody";
+import { Params } from "../types/requestBody";
 
 // Helper function to set nested property
 function setNestedProperty(obj: any, path: string, value: any) {
@@ -44,7 +44,7 @@ const transformToProviderRequest = (provider: string, params: Params, fn: string
 
       // If a transformation is defined for this parameter, apply it
       if (paramConfig.transform) {
-        value = paramConfig.transform(value);
+        value = paramConfig.transform(params);
       }
 
       // If a minimum is defined for this parameter and the value is less than this, set the value to the minimum
