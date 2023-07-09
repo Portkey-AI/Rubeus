@@ -1,9 +1,17 @@
 import Providers from "../providers";
-import { CompletionResponse } from "../providers/types";
+import { ChatCompletionResponse, CompletionResponse } from "../providers/types";
 import transformToProviderRequest from "../services/transformToProviderRequest";
 import { Options, Params, RequestBody } from "../types/requestBody";
 import { retryRequest } from "./retryHandler";
 
+/**
+ * Constructs the request options for the API call.
+ *
+ * @param {any} apiConfig - API configuration details. The structure is Providers[provider].api.
+ * @param {string} apiKey - The API key for the request.
+ * @param {string} provider - The provider for the request.
+ * @returns {RequestInit} - The fetch options for the request.
+ */
 export function constructRequest(apiConfig: any, apiKey: string, provider: string) {
   let headers: any = {
     "Content-Type": "application/json",
@@ -23,6 +31,15 @@ export function constructRequest(apiConfig: any, apiKey: string, provider: strin
   return fetchOptions;
 }
 
+/**
+ * Selects a provider based on their assigned weights.
+ * The weight is used to determine the probability of each provider being chosen.
+ * If all providers have a weight of 0, an error will be thrown.
+ *
+ * @param {Options[]} providers - The available providers.
+ * @returns {Options} - The selected provider.
+ * @throws Will throw an error if no provider is selected, or if all weights are 0.
+ */
 export function selectProviderByWeight(providers:Options[]): Options {
   // Assign a default weight of 1 to providers with undefined weight
   providers = providers.map(provider => ({...provider, weight: provider.weight ?? 1}));
@@ -49,6 +66,15 @@ export function selectProviderByWeight(providers:Options[]): Options {
   throw new Error("No provider selected, please check the weights");
 }
 
+/**
+ * Gets the provider options based on the specified mode.
+ * Modes can be "single" (uses the first provider), "loadbalance" (selects one provider based on weights),
+ * or "fallback" (uses all providers in the given order). If the mode does not match these options, null is returned.
+ *
+ * @param {string} mode - The mode for selecting providers.
+ * @param {any} config - The configuration for the providers.
+ * @returns {(Options[]|null)} - The selected provider options.
+ */
 export function getProviderOptionsByMode(mode: string, config: any): Options[]|null {
   switch (mode) {
     case "single":
@@ -62,6 +88,18 @@ export function getProviderOptionsByMode(mode: string, config: any): Options[]|n
   }    
 }
 
+/**
+ * Makes a POST request to a provider and returns the response.
+ * The POST request is constructed using the provider, apiKey, and requestBody parameters.
+ * The fn parameter is the type of request being made (e.g., "complete", "chatComplete").
+ *
+ * @param {Options} providerOption - The provider options. This object follows the Options interface and may contain a RetrySettings object for retry configuration.
+ * @param {string} apiKey - The API key.
+ * @param {RequestBody} requestBody - The request body.
+ * @param {string} fn - The function for the request.
+ * @returns {Promise<CompletionResponse>} - The response from the POST request.
+ * @throws Will throw an error if the response is not ok or if all retry attempts fail.
+ */
 async function tryPost(providerOption:Options, apiKey:string, requestBody: RequestBody, fn: string): Promise<CompletionResponse> {
   const overrideParams = providerOption?.override_params || {};
   const params: Params = {...requestBody.params, ...overrideParams};
@@ -109,7 +147,19 @@ async function tryPost(providerOption:Options, apiKey:string, requestBody: Reque
   return resp;
 }
 
-export async function tryProvidersInSequence(providers:Options[], env:any, request: RequestBody, fn: string) {
+/**
+ * Tries providers in sequence until a successful response is received.
+ * The providers are attempted in the order they are given in the providers parameter.
+ * If all providers fail, an error is thrown with the details of the errors from each provider.
+ *
+ * @param {Options[]} providers - The providers to try. Each object in the array follows the Options interface and may contain a RetrySettings object for retry configuration.
+ * @param {any} env - The environment variables.
+ * @param {RequestBody} request - The request body.
+ * @param {string} fn - The function for the request.
+ * @returns {Promise<CompletionResponse>} - The response from the first successful provider.
+ * @throws Will throw an error if all providers fail.
+ */
+export async function tryProvidersInSequence(providers:Options[], env:any, request: RequestBody, fn: string): Promise<CompletionResponse|ChatCompletionResponse> {
   let errors: any[] = [];
   for (let providerOption of providers) {
     try {

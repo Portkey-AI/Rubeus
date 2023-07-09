@@ -1,5 +1,18 @@
 import retry from 'async-retry';
 
+/**
+ * Tries making a fetch request a specified number of times until it succeeds.
+ * If the response's status code is included in the statusCodesToRetry array,
+ * the request is retried.
+ *
+ * @param {string} url - The URL to which the request is made.
+ * @param {RequestInit} options - The options for the request, such as method, headers, and body.
+ * @param {number} retryCount - The maximum number of times to retry the request.
+ * @param {number[]} statusCodesToRetry - The HTTP status codes that should trigger a retry.
+ * @returns {Promise<[Response, number | undefined]>} - The response from the request and the number of attempts it took to get a successful response. 
+ *                                                     If all attempts fail, the error message and status code are returned as a Response object, and the number of attempts is undefined.
+ * @throws Will throw an error if the request fails after all retry attempts, with the error message and status code in the thrown error.
+ */
 export const retryRequest = async (
   url: string,
   options: RequestInit,

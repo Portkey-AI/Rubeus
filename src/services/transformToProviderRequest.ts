@@ -1,7 +1,13 @@
 import ProviderConfigs from "../providers";
 import { Params } from "../types/requestBody";
 
-// Helper function to set nested property
+/**
+ * Helper function to set a nested property in an object.
+ *
+ * @param obj - The object on which to set the property.
+ * @param path - The dot-separated path to the property.
+ * @param value - The value to set the property to.
+ */
 function setNestedProperty(obj: any, path: string, value: any) {
   const parts = path.split(".");
   let current = obj;
@@ -20,6 +26,13 @@ function setNestedProperty(obj: any, path: string, value: any) {
  * constraints defined in the provider's configuration. If a required parameter is missing,
  * it assigns the default value from the provider's configuration.
  *
+ * @param provider - The name of the AI provider.
+ * @param params - The parameters for the request.
+ * @param fn - The function to call on the AI provider.
+ *
+ * @returns The transformed request body.
+ *
+ * @throws {Error} If the provider is not supported.
  */
 const transformToProviderRequest = (provider: string, params: Params, fn: string): { [key: string]: any } => {
   // Get the configuration for the specified provider
