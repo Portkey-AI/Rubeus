@@ -1,3 +1,5 @@
+import { Message } from "../types/requestBody";
+
 export interface ParameterConfig {
   param: string;
   default?: any;
@@ -44,11 +46,6 @@ export interface CompletionResponse {
     completion_tokens: number;
     total_tokens: number;
   };
-}
-
-export interface Message {
-  role: string;
-  content: string;
 }
 
 export interface ChatChoice {
