@@ -1,6 +1,7 @@
 import Providers from "../providers";
-import { ChatCompletionResponse, CompletionResponse } from "../providers/types";
+import { BaseResponse, ChatCompletionResponse, CompletionResponse } from "../providers/types";
 import transformToProviderRequest from "../services/transformToProviderRequest";
+import { EmbedRequestBody } from "../types/embedRequestBody";
 import { Options, Params, RequestBody } from "../types/requestBody";
 import { retryRequest } from "./retryHandler";
 
@@ -46,17 +47,14 @@ export function selectProviderByWeight(providers:Options[]): Options {
 
   // Compute the total weight
   let totalWeight = providers.reduce((sum:number, provider:any) => sum + provider.weight, 0);
-  console.log(totalWeight);
 
   // Select a random weight between 0 and totalWeight
   let randomWeight = Math.random() * totalWeight;
-  console.log(randomWeight);
 
   // Find the provider that corresponds to the selected weight
   for (let provider of providers) {
     // @ts-ignore since weight is being default set above
     if (randomWeight < provider.weight) {
-      console.log(`Chose ${provider} with weight ${provider.weight} as it is greater than ${randomWeight}`)
       return provider;
     }
     // @ts-ignore since weight is being default set above
@@ -100,7 +98,7 @@ export function getProviderOptionsByMode(mode: string, config: any): Options[]|n
  * @returns {Promise<CompletionResponse>} - The response from the POST request.
  * @throws Will throw an error if the response is not ok or if all retry attempts fail.
  */
-async function tryPost(providerOption:Options, apiKey:string, requestBody: RequestBody, fn: string): Promise<CompletionResponse> {
+export async function tryPost(providerOption:Options, apiKey:string, requestBody: RequestBody|EmbedRequestBody, fn: string): Promise<BaseResponse> {
   const overrideParams = providerOption?.override_params || {};
   const params: Params = {...requestBody.params, ...overrideParams};
 
@@ -159,7 +157,7 @@ async function tryPost(providerOption:Options, apiKey:string, requestBody: Reque
  * @returns {Promise<CompletionResponse>} - The response from the first successful provider.
  * @throws Will throw an error if all providers fail.
  */
-export async function tryProvidersInSequence(providers:Options[], env:any, request: RequestBody, fn: string): Promise<CompletionResponse|ChatCompletionResponse> {
+export async function tryProvidersInSequence(providers:Options[], env:any, request: RequestBody, fn: string): Promise<BaseResponse> {
   let errors: any[] = [];
   for (let providerOption of providers) {
     try {

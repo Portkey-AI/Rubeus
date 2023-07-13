@@ -67,15 +67,18 @@ export interface ProviderConfigs {
   [key: string]: any;
 }
 
+export interface BaseResponse {
+  object: string;
+  model: string;
+}
+
 /**
  * The basic structure of a completion response.
  * @interface
  */
-export interface CResponse {
+export interface CResponse extends BaseResponse {
   id: string;
-  object: string;
   created: number;
-  model: string;
   usage: {
     prompt_tokens: number;
     completion_tokens: number;
@@ -113,3 +116,4 @@ export interface ChatChoice {
 export interface ChatCompletionResponse extends CResponse {
   choices: ChatChoice[];
 }
+

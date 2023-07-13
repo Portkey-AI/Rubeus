@@ -10,6 +10,7 @@ import { HTTPException } from 'hono/http-exception'
 
 import { completeHandler } from "./handlers/completeHandler";
 import { chatCompleteHandler } from "./handlers/chatCompleteHandler";
+import { embedHandler } from "./handlers/embedHandler";
 
 // Create a new Hono server instance
 const app = new Hono();
@@ -67,6 +68,21 @@ app.post("/chatComplete", async (c) => {
   try {
     let cjson = await c.req.json();
     let response = await chatCompleteHandler(c.env, cjson);
+    return c.json(response);
+  } catch(err:any) {
+    throw new HTTPException(500, { message: err.message })
+  }
+});
+
+/**
+ * POST route for '/embed'.
+ * Handles requests by passing them to the embedHandler.
+ * If an error occurs, it throws an HTTPException with status code 500.
+ */
+app.post("/embed", async (c) => {
+  try {
+    let cjson = await c.req.json();
+    let response = await embedHandler(c.env, cjson);
     return c.json(response);
   } catch(err:any) {
     throw new HTTPException(500, { message: err.message })

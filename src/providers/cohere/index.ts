@@ -2,7 +2,7 @@ import { ProviderConfigs } from "../types";
 import CohereAPIConfig from "./api";
 import { CohereChatCompleteConfig, CohereChatCompleteResponseTransform } from "./chatComplete";
 import {CohereCompleteConfig, CohereCompleteResponseTransform} from "./complete";
-import CohereEmbedConfig from "./embed";
+import { CohereEmbedConfig, CohereEmbedResponseTransform } from "./embed";
 
 const CohereConfig: ProviderConfigs = {
   complete: CohereCompleteConfig,
@@ -11,7 +11,8 @@ const CohereConfig: ProviderConfigs = {
   api: CohereAPIConfig,
   responseTransforms: {
     complete: CohereCompleteResponseTransform,
-    chatComplete: CohereChatCompleteResponseTransform
+    chatComplete: CohereChatCompleteResponseTransform,
+    embed: CohereEmbedResponseTransform
   }
 };
 

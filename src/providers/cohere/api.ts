@@ -7,6 +7,7 @@ const CohereAPIConfig: ProviderAPIConfig = {
   },
   complete: "/generate",
   chatComplete: "/generate",
+  embed: "/embed"
 };
 
 export default CohereAPIConfig;

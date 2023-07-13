@@ -34,7 +34,7 @@ export async function completeHandler(env: any, request: RequestBody): Promise<C
   }
   
   try {
-      return await tryProvidersInSequence(providerOptions, env, request, "complete");
+      return await tryProvidersInSequence(providerOptions, env, request, "complete") as CResponse;
   } catch (error:any) {
     console.error(`Error caught in completeHandler: ${error.message}`);
     const errorResponse = {

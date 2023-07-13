@@ -6,7 +6,8 @@ const OpenAIAPIConfig: ProviderAPIConfig = {
     return {"Authorization": `Bearer ${API_KEY}`}
   },
   complete: "/completions",
-  chatComplete: "/chat/completions"
+  chatComplete: "/chat/completions",
+  embed: "/embeddings"
 };
 
 export default OpenAIAPIConfig;

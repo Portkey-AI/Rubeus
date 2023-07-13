@@ -1,6 +1,6 @@
 import { ProviderConfigs } from "../types";
 import { OpenAICompleteConfig, OpenAICompleteResponseTransform } from "./complete";
-import OpenAIEmbedConfig from "./embed";
+import { OpenAIEmbedConfig, OpenAIEmbedResponseTransform } from "./embed";
 import OpenAIAPIConfig from "./api";
 import { OpenAIChatCompleteConfig, OpenAIChatCompleteResponseTransform } from "./chatComplete";
 
@@ -11,7 +11,8 @@ const OpenAIConfig: ProviderConfigs = {
   chatComplete: OpenAIChatCompleteConfig,
   responseTransforms: {
     complete: OpenAICompleteResponseTransform,
-    chatComplete: OpenAIChatCompleteResponseTransform
+    chatComplete: OpenAIChatCompleteResponseTransform,
+    embed: OpenAIEmbedResponseTransform
   }
 };
 
